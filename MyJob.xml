@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Reference kb for sp_add_job and dbatools.io command New-DbaAgentJob for translation of paramaters -->
+<Job Name="Multi-Step Job" Disabled="0" Description="" StartStepId="1" Category="My Category" OwnerLogin="sa" EventLogLevel="2" EmailLevel="0" PageLevel="0" EmailOperator="" NetsendOperator="" PageOperator="" DeleteLevel="0">
+	<!-- A job can have multiple steps -->
+	<Steps>
+		<!-- Reference kb for sp_add_jobstep and dbatools.io command New-DbaAgentJobStep for translation of paramaters. -->
+		<Step Id="1" Name="Step 1" Subsystem="TransactSql" SubsystemServer="" Command="SELECT 1" CmdExecSuccessCode="" OnSuccessAction="GoToStep" OnSuccessStepId="3" OnFailAction="GoToStep" OnFailStepId="2" Database="master" DatabaseUser="" RetryAttempts="0" RetryInterval="0" OutputFileName="" ProxyName="">
+			<Flags>
+				<Flag Value="AppendToTableLog"/>
+				<Flag Value="AppendToJobHistory"/>
+			</Flags>
+		</Step>
+		<Step Id="2" Name="Step 2 (Recover)" Subsystem="TransactSql" SubsystemServer="" Command="SELECT 2" CmdExecSuccessCode="" OnSuccessAction="GoToStep" OnSuccessStepId="3" OnFailAction="QuitWithFailure" OnFailStepId="" Database="master" DatabaseUser="" RetryAttempts="0" RetryInterval="0" OutputFileName="" ProxyName="">
+			<Flags>
+				<Flag Value="AppendToTableLog"/>
+				<Flag Value="AppendToJobHistory"/>
+			</Flags>
+		</Step>
+		<Step Id="3" Name="Step 3" Subsystem="TransactSql" SubsystemServer="" Command="SELECT 3" CmdExecSuccessCode="" OnSuccessAction="GoToStep" OnSuccessStepId="5" OnFailAction="GoToStep" OnFailStepId="4" Database="master" DatabaseUser="" RetryAttempts="0" RetryInterval="0" OutputFileName="" ProxyName="">
+			<Flags>
+				<Flag Value="AppendToTableLog"/>
+				<Flag Value="AppendToJobHistory"/>
+			</Flags>
+		</Step>
+		<Step Id="4" Name="Step 4 (Recover)" Subsystem="TransactSql" SubsystemServer="" Command="SELECT 4" CmdExecSuccessCode="" OnSuccessAction="GoToStep" OnSuccessStepId="5" OnFailAction="QuitWithFailure" OnFailStepId="" Database="master" DatabaseUser="" RetryAttempts="0" RetryInterval="0" OutputFileName="" ProxyName="">
+			<Flags>
+				<Flag Value="AppendToTableLog"/>
+				<Flag Value="AppendToJobHistory"/>
+			</Flags>
+		</Step>
+		<Step Id="5" Name="Step 5" Subsystem="TransactSql" SubsystemServer="" Command="SELECT 5" CmdExecSuccessCode="" OnSuccessAction="GoToNextStep" OnSuccessStepId="" OnFailAction="QuitWithFailure" OnFailStepId="" Database="master" DatabaseUser="" RetryAttempts="0" RetryInterval="0" OutputFileName="" ProxyName="">
+			<Flags>
+				<Flag Value="AppendToTableLog"/>
+				<Flag Value="AppendToJobHistory"/>
+			</Flags>
+		</Step>
+		<Step Id="6" Name="Step 6 (Finalize)" Subsystem="TransactSql" SubsystemServer="" Command="SELECT 6" CmdExecSuccessCode="" OnSuccessAction="QuitWithSuccess" OnSuccessStepId="" OnFailAction="QuitWithFailure" OnFailStepId="" Database="master" DatabaseUser="" RetryAttempts="0" RetryInterval="0" OutputFileName="" ProxyName="">
+			<Flags>
+				<Flag Value="AppendToTableLog"/>
+				<Flag Value="AppendToJobHistory"/>
+			</Flags>
+		</Step>
+	</Steps>
+	<!--A job can be attached to multiple schedules -->
+	<Schedules>
+		<!--Reference kb for sp_add_schedule and dbatools.io command New-DbaAgentSchedule for translation of parameters.-->
+		<Schedule Name="Test Schedule" Disabled="1" FrequencyType="Daily" FrequencySubdayType="Time" FrequencySubdayInterval="0" FrequencyRelativeInterval="" FrequencyRecurrenceFactor="1" StartDate="20200903" EndDate="99991231" StartTime="030000" EndTime="000000">
+			<FrequencyIntervals>
+				<FrequencyInterval Value="31"/>
+			</FrequencyIntervals>
+		</Schedule>
+		<Schedule Name="Alternate Test Schedule" Disabled="0" FrequencyType="Monthly" FrequencySubdayType="Time" FrequencySubdayInterval="0" FrequencyRelativeInterval="" FrequencyRecurrenceFactor="1" StartDate="20200903" EndDate="99991231" StartTime="030000" EndTime="000000">
+			<FrequencyIntervals>
+				<FrequencyInterval Value="2"/>
+			</FrequencyIntervals>
+		</Schedule>
+		<Schedule Name="Additional Test Schedule" Disabled="0" FrequencyType="MonthlyRelative" FrequencySubdayType="Time" FrequencySubdayInterval="0" FrequencyRelativeInterval="Third" FrequencyRecurrenceFactor="1" StartDate="20200903" EndDate="99991231" StartTime="030000" EndTime="000000">
+			<FrequencyIntervals>
+				<FrequencyInterval Value="Sunday"/>
+			</FrequencyIntervals>
+		</Schedule>
+	</Schedules>
+</Job>
