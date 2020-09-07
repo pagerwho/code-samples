@@ -11,10 +11,12 @@ foreach ($SQLInstance in $SQLInstances) {
         
         # Create the Category if it doesn't exist
         if ($null -eq (Get-DbaAgentJobCategory -SqlInstance $SQLInstance -Category $Job.Job.Category)) {
+            "Creating Category $($Job.Job.Category)"
             New-DbaAgentJobCategory -SqlInstance $SQLInstance -Category $Job.Job.Category
         }
         
         # Create a stub job with valid schedules attached already
+        "Creating Job $($Job.Job.Name)"
         New-DbaAgentJob -SqlInstance $SQLInstance -Job $Job.Job.Name -Schedule (Get-DbaAgentSchedule -SqlInstance $SQLInstance -Schedule $Schedules.Name).Name -Disabled
         
         #Build our schedules
@@ -46,7 +48,7 @@ foreach ($SQLInstance in $SQLInstances) {
                 }
                 else {
                     "Creating $($Job.Job.Name): Schedule $($Schedule.Name), Disabled"
-                    $ScheduleParam.Add("Disabled")
+                    $ScheduleParam.Add("Disabled",$true)
                     if ("" -eq $Schedule.FrequencyRelativeInterval) {
                         New-DbaAgentSchedule @ScheduleParam
                     }
@@ -72,7 +74,7 @@ foreach ($SQLInstance in $SQLInstances) {
                 }
                 else {
                     "Creating $($Job.Job.Name): Schedule $($Schedule.Name), Disabled"
-                    $ScheduleParam.Add("Disabled")
+                    $ScheduleParam.Add("Disabled",$true)
                     if ("" -eq $Schedule.FrequencyRelativeInterval) {
                         Set-DbaAgentSchedule @ScheduleParam
                     }
